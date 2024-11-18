@@ -1,0 +1,56 @@
+#ifndef token_h
+#define token_h
+
+typedef struct token_struct{
+    enum {
+        TOKEN_ID,
+
+        TOKEN_EQUALS,
+        TOKEN_ASSIGNMENT,
+
+        TOKEN_STRING,
+        TOKEN_SEMI,
+        TOKEN_LPAREN,
+        TOKEN_RPAREN,
+        TOKEN_RBRACE,
+        TOKEN_LBRACE,
+        TOKEN_LBRACKET,
+        TOKEN_RBRACKET,
+        TOKEN_COMMA,
+        TOKEN_EOF,
+        TOKEN_OPERATOR,
+
+        TOKEN_KEYWORD,
+        TOKEN_IF,
+        TOKEN_ELSE,
+        TOKEN_WHILE,
+        TOKEN_DO,
+        TOKEN_RETURN,
+        TOKEN_FOR,
+
+        TOKEN_DATATYPE,
+        TOKEN_INT,
+        TOKEN_FLOAT,
+        TOKEN_DOUBLE,
+        TOKEN_CHAR,
+        TOKEN_VOID,
+        TOKEN_BOOL,
+
+        TOKEN_SINGLECOMMENT,
+        TOKEN_MULTICOMMENT,
+
+        TOKEN_NUMBER
+    }type;
+
+    char* value;
+}token;
+
+token* token_init(int type, char* value){
+    token* token_instance = malloc(sizeof(token));
+
+    token_instance->type = type;
+    token_instance->value = value;
+}
+
+
+#endif
