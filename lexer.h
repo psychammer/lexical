@@ -342,7 +342,7 @@ token* get_comment_token(lexer* myLexer){
         else if(next_char=='*'){
             advance_lexer(myLexer);
 
-            return token_init(TOKEN_SINGLECOMMENT, get_multi_line_string(myLexer));
+            return token_init(TOKEN_MULTICOMMENT, get_multi_line_string(myLexer));
         }
     }
     else if(myLexer->current_char=='#'){
@@ -422,6 +422,8 @@ token* token_buffer(lexer* myLexer){
             case ',': return get_token_then_advance(myLexer, token_init(TOKEN_COMMA, char_to_string(','))); break;
             case '[': return get_token_then_advance(myLexer, token_init(TOKEN_LBRACKET, char_to_string('['))); break;
             case ']': return get_token_then_advance(myLexer, token_init(TOKEN_RBRACKET, char_to_string(']'))); break;
+            default: 
+                return get_token_then_advance(myLexer, token_init(TOKEN_UNKNOWN, NULL)); break;
         }
 
         // printf("debug %d\n", myLexer->current_char);

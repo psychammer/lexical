@@ -46,7 +46,25 @@ int main(void){
         printf("token: %s, value: %s\n", getTokenType(token_arr[i].type), token_arr[i].value);
     }
 
-    free(token_arr);
+    // FILE *file = fopen("tokens_out.bin", "wb");
+    // if (file == NULL) {
+    //     perror("Failed to open file");
+    //     return 1;
+    // }
+
+    // size = sizeof(token_arr)/sizeof(token_arr[0]);
+
+    // fwrite(&size, sizeof(size), 1, file);
+
+    // printf("%d", size);
+
+    // for (int i = 0; i < size; i++) {
+    //     fwrite(&token_arr[i], sizeof(token), 1, file);
+    // }
+
+    // fclose(file);
+
+    // free(token_arr);
     
 
     return 0;

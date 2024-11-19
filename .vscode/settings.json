@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "token.h": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "string.h": "c",
+        "ctype.h": "c",
+        "lexer.h": "c"
     }
 }

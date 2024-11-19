@@ -47,7 +47,9 @@ typedef struct token_struct{
         TOKEN_SINGLECOMMENT,
         TOKEN_MULTICOMMENT,
 
-        TOKEN_NUMBER
+        TOKEN_NUMBER,
+
+        TOKEN_UNKNOWN
     }type;
 
     char* value;
