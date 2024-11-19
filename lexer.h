@@ -196,6 +196,9 @@ token* get_identifier_token(lexer* myLexer){
     else if(strcmp(string_buffer, "bool")==0){
         myToken->type = TOKEN_DATATYPE;
     }
+    else if(strcmp(string_buffer, "string")==0 || strcmp(string_buffer, "str")==0){
+        myToken->type = TOKEN_DATATYPE;
+    }
 
     else{
         myToken->type = TOKEN_ID;
@@ -356,7 +359,7 @@ char* char_to_string(char ch){
 }
 
 token* token_buffer(lexer* myLexer){
-    while(myLexer->current_char != EOF && myLexer->i < strlen(myLexer->content)){
+    while(myLexer->current_char != EOF && myLexer->i < strlen(myLexer->content) || myLexer->current_char != '\0'){
         if(myLexer->current_char== ' ' || myLexer->current_char == 10 || myLexer->current_char == 13){
             skip_whitespace(myLexer);
         }
@@ -416,7 +419,7 @@ token* token_buffer(lexer* myLexer){
             case ']': return get_token_then_advance(myLexer, token_init(TOKEN_RBRACKET, char_to_string(']'))); break;
         }
 
-        printf("debug %d\n", myLexer->current_char);
+        // printf("debug %d\n", myLexer->current_char);
         advance_lexer(myLexer);
         return token_init(404, NULL);
     }
