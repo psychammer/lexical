@@ -84,6 +84,7 @@ token* get_identifier_token(lexer* myLexer){
     token* myToken = malloc(sizeof(token));
 
     char* string_buffer = malloc(sizeof(char));
+    string_buffer[0] = '\0';
     while(isalnum(myLexer->current_char) ||  myLexer->current_char=='_'){
         char* current_char_as_string = malloc(sizeof(char)+1);
         current_char_as_string[0] = myLexer->current_char;
