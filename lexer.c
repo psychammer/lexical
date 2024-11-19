@@ -28,16 +28,15 @@ int main(void){
         if(token_instance->value != NULL){
             size++;
 
-            token* temp = realloc(token_arr, size*sizeof(token));
-
+            // Resize token array
+            token* temp = realloc(token_arr, size * sizeof(token));
             token_arr = temp;
 
-            token_arr[size-1].type = token_instance->type;
-            token_arr[size-1].value = token_instance->value;
+            // Copy token instance data
+            token_arr[size - 1].type = token_instance->type;
+            token_arr[size - 1].value = strdup(token_instance->value);
         }
         
-        // printf("token: %d, value: %s\n", token_instance->type, token_instance->value);
-        // printf("size of token: %ld", sizeof(token));
     }
 
     // printf("size of token: %d", size);

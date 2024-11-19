@@ -1,6 +1,23 @@
-int age = 5;
-float temperature = 37.5;
-str myName = "Debby";
-char myFavLetter = 'G';
-bool answer = true;
-function sum(int a, int b) { return a + b; }
+// For loop
+for (int i = 0; i < 5; i++) {
+    print(i);
+}
+
+if (height == 2.1 and weight <= 180) {
+    print("underweight");
+} elif (height == 2.1 and (weight == 280 or weight == 230)) {
+    print("overweight");
+} else {
+    print("obese");
+}
+
+// While loop
+while (x > 0) {
+    print(x);
+    x -= 1;
+}
+
+// Do-while loop
+do {
+    myNumber /= 2;
+} while (myNumber > 0);
