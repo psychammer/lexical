@@ -6,9 +6,9 @@ typedef struct token_struct{
         TOKEN_ID,
 
         TOKEN_EQUALS,
-        TOKEN_ASSIGNMENT,
 
         TOKEN_STRING,
+        TOKEN_SYMBOL,
         TOKEN_SEMI,
         TOKEN_LPAREN,
         TOKEN_RPAREN,
@@ -17,6 +17,12 @@ typedef struct token_struct{
         TOKEN_LBRACKET,
         TOKEN_RBRACKET,
         TOKEN_COMMA,
+        TOKEN_COLON,
+        TOKEN_TILDE,
+        TOKEN_QUESTION,
+        TOKEN_EXCLAMATION,
+        TOKEN_AMPERSAND,
+        TOKEN_DOT,
         TOKEN_EOF,
         TOKEN_OPERATOR,
 
@@ -27,6 +33,8 @@ typedef struct token_struct{
         TOKEN_DO,
         TOKEN_RETURN,
         TOKEN_FOR,
+
+        TOKEN_RESERVEDWORDS,
 
         TOKEN_DATATYPE,
         TOKEN_INT,

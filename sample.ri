@@ -6,7 +6,12 @@ if(parenthesis);
 function sum(int a, int b){
     return a + b;
     "qwdwqd"
+    'q'
 }
+
+int age += 5;
+int age < 5;
+
 
 /* omd21
 blaj

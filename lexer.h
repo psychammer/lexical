@@ -55,10 +55,17 @@ int is_operator(char ch){
         case '*': return 1; break;
         case '/': return 1; break;
         case '%': return 1; break;
+
+        case '=': return 1; break;
+        case '>': return 1; break;
+        case '<': return 1; break;
+        case '!': return 1; break;
+
         default: return 0;
     }
 
 }
+
 
 void advance_lexer(lexer* myLexer){
     if(myLexer->i < strlen(myLexer->content)){
@@ -103,7 +110,7 @@ token* get_identifier_token(lexer* myLexer){
     else if(strcmp(string_buffer, "if")==0){
         myToken->type = TOKEN_KEYWORD;
     }
-    else if(strcmp(string_buffer, "else")==0){
+    else if(strcmp(string_buffer, "else")==0 || strcmp(string_buffer, "elif")==0){
         myToken->type = TOKEN_KEYWORD;
     }
     else if(strcmp(string_buffer, "while")==0){
@@ -118,8 +125,57 @@ token* get_identifier_token(lexer* myLexer){
     else if(strcmp(string_buffer, "return")==0){
         myToken->type = TOKEN_KEYWORD;
     }
-    else if(strcmp(string_buffer, "function")==0){
+    else if(strcmp(string_buffer, "function")==0 || strcmp(string_buffer, "fun")==0){
         myToken->type = TOKEN_KEYWORD;
+    }
+    else if(strcmp(string_buffer, "try")==0){
+        myToken->type = TOKEN_KEYWORD;
+    }
+    else if(strcmp(string_buffer, "catch")==0){
+        myToken->type = TOKEN_KEYWORD;
+    }
+    else if(strcmp(string_buffer, "break")==0){
+        myToken->type = TOKEN_KEYWORD;
+    }
+    else if(strcmp(string_buffer, "const")==0 || strcmp(string_buffer, "constant")==0 || strcmp(string_buffer, "cons")==0){
+        myToken->type = TOKEN_KEYWORD;
+    }
+
+    else if(strcmp(string_buffer, "lambda")==0){
+        myToken->type = TOKEN_RESERVEDWORDS;
+    }
+    else if(strcmp(string_buffer, "in")==0){
+        myToken->type = TOKEN_RESERVEDWORDS;
+    }
+    else if(strcmp(string_buffer, "is")==0){
+        myToken->type = TOKEN_RESERVEDWORDS;
+    }
+    else if(strcmp(string_buffer, "finally")==0){
+        myToken->type = TOKEN_RESERVEDWORDS;
+    }
+    else if(strcmp(string_buffer, "raise")==0){
+        myToken->type = TOKEN_RESERVEDWORDS;
+    }
+    else if(strcmp(string_buffer, "def")==0){
+        myToken->type = TOKEN_RESERVEDWORDS;
+    }
+    else if(strcmp(string_buffer, "as")==0){
+        myToken->type = TOKEN_RESERVEDWORDS;
+    }
+    else if(strcmp(string_buffer, "var")==0){
+        myToken->type = TOKEN_RESERVEDWORDS;
+    }
+    else if(strcmp(string_buffer, "let")==0){
+        myToken->type = TOKEN_RESERVEDWORDS;
+    }
+
+
+    else if(strcmp(string_buffer, "true")==0 || strcmp(string_buffer, "false")==0){
+        myToken->type = TOKEN_BOOL;
+    }
+
+    else if(strcmp(string_buffer, "NULL")==0 || strcmp(string_buffer, "null")==0){
+        myToken->type = TOKEN_VOID;
     }
 
     else if(strcmp(string_buffer, "int")==0){
@@ -178,6 +234,7 @@ token* get_number_token(lexer* myLexer){
 }
 
 token* get_string_token(lexer* myLexer){
+    char symbol = myLexer->current_char;
     advance_lexer(myLexer); // skip the "
 
     token* myToken = malloc(sizeof(token));
@@ -194,7 +251,14 @@ token* get_string_token(lexer* myLexer){
         advance_lexer(myLexer);
     }
     advance_lexer(myLexer);
-    myToken->type = TOKEN_STRING;
+
+    if(symbol == '"'){
+        myToken->type = TOKEN_STRING;
+    }
+    else if(symbol == '\''){
+        myToken->type = TOKEN_CHAR;
+    }
+    
     myToken->value = string_buffer;
     
     // printf("buffered: %s %d\n", string_buffer, myToken->type);
@@ -210,7 +274,7 @@ token* get_assignment_token(lexer* myLexer, char curr_operator){
     advance_lexer(myLexer);
 
     token* myToken = malloc(sizeof(token));
-    myToken->type = TOKEN_ASSIGNMENT;
+    myToken->type = TOKEN_OPERATOR;
     myToken->value = string_buffer;
 }
 
@@ -305,7 +369,7 @@ token* token_buffer(lexer* myLexer){
             return get_identifier_token(myLexer);
         }
 
-        if(myLexer->current_char == '"'){
+        if(myLexer->current_char == '"' || myLexer->current_char == '\''){
             return get_string_token(myLexer);
         }
 
@@ -334,7 +398,14 @@ token* token_buffer(lexer* myLexer){
         }
 
         switch(myLexer->current_char){
-            case '=': return get_token_then_advance(myLexer, token_init(TOKEN_EQUALS, char_to_string('='))); break;
+            case '.': return get_token_then_advance(myLexer, token_init(TOKEN_DOT, char_to_string('.'))); break;
+            case '@': return get_token_then_advance(myLexer, token_init(TOKEN_SYMBOL, char_to_string('@'))); break;
+            case '^': return get_token_then_advance(myLexer, token_init(TOKEN_SYMBOL, char_to_string('^'))); break;
+            case '~': return get_token_then_advance(myLexer, token_init(TOKEN_TILDE, char_to_string('~'))); break;
+            case '?': return get_token_then_advance(myLexer, token_init(TOKEN_QUESTION, char_to_string('?'))); break;
+            case '!': return get_token_then_advance(myLexer, token_init(TOKEN_EXCLAMATION, char_to_string('!'))); break;
+            case '&': return get_token_then_advance(myLexer, token_init(TOKEN_AMPERSAND, char_to_string('&'))); break;
+            case ':': return get_token_then_advance(myLexer, token_init(TOKEN_COLON, char_to_string(':'))); break;
             case ';': return get_token_then_advance(myLexer, token_init(TOKEN_SEMI, char_to_string(';'))); break;
             case '(': return get_token_then_advance(myLexer, token_init(TOKEN_LPAREN, char_to_string('('))); break;
             case ')': return get_token_then_advance(myLexer, token_init(TOKEN_RPAREN, char_to_string(')'))); break;
