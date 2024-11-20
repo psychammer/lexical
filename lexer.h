@@ -8,7 +8,8 @@ typedef struct lexer_struct{
 
 }lexer;
 
-token* isKeyword(lexer* myLexer, char* valueToCheck);
+token* isKeyword(lexer* myLexer, token* myToken, char* valueToCheck);
+char* char_to_string(char ch);
 
 lexer* lexer_init(char* content){
     lexer* myLexer = malloc(sizeof(lexer));
@@ -87,16 +88,102 @@ token* get_identifier_token(lexer* myLexer){
 
     switch(myLexer->current_char){
 
-        case 't': if(myLexer->content[myLexer->i+2]=='u') return isKeyword(myLexer, "rue"); else return isKeyword(myLexer, "ry"); break;
-        case 'f': if(myLexer->content[myLexer->i+1]=='a') return isKeyword(myLexer, "alse"); else if (myLexer->content[myLexer->i+1]=='u') return isKeyword(myLexer, "unction"); else (myLexer->content[myLexer->i+1]=='o'); return isKeyword(myLexer, "or"); break;
-        case 'c': if(myLexer->content[myLexer->i+2]=='t') return isKeyword(myLexer, "atch"); else return isKeyword(myLexer, "ase"); break;
-        case 'e': if(myLexer->content[myLexer->i+2]=='i') return isKeyword(myLexer, "lif"); else return isKeyword(myLexer, "lse"); break;
-        case 'i': return isKeyword(myLexer, "f"); break;
-        case 'w': return isKeyword(myLexer, "hile"); break;
-        case 'd': return isKeyword(myLexer, "o"); break;
-        case 'r': return isKeyword(myLexer, "eturn"); break;
-        case 'b': return isKeyword(myLexer, "reak"); break;
+        case 't':
+            myToken->value =  char_to_string(myLexer->current_char);
+            advance_lexer(myLexer);
+            if(myLexer->current_char=='r'){
+                return isKeyword(myLexer, myToken,"rue");
+            }
+            else return isKeyword(myLexer, myToken, "ry"); break;
         
+        case 'f': 
+            myToken->value =  char_to_string(myLexer->current_char);
+            advance_lexer(myLexer);
+            if(myLexer->current_char=='a'){
+                return isKeyword(myLexer, myToken, "alse");
+            }
+            else if(myLexer->current_char=='u'){
+                return isKeyword(myLexer, myToken, "unction");
+            }
+            else{
+                return isKeyword(myLexer, myToken, "or");
+            }
+            break;
+
+        case 'c': 
+            myToken->value =  char_to_string(myLexer->current_char);
+            advance_lexer(myLexer);
+            if(myLexer->current_char=='a'){
+                myToken->value = realloc(myToken->value, strlen(myToken->value)+2);
+                strcat(myToken->value, char_to_string(myLexer->current_char));
+                advance_lexer(myLexer);
+
+                if(myLexer->current_char=='s'){
+                    return isKeyword(myLexer, myToken, "se"); 
+                }
+                else{
+                    return isKeyword(myLexer, myToken, "tch"); 
+                }
+            }
+            break;
+
+        case 'e': 
+            myToken->value =  char_to_string(myLexer->current_char);
+            advance_lexer(myLexer);
+            if(myLexer->current_char=='l'){
+                myToken->value = realloc(myToken->value, strlen(myToken->value)+2);
+                strcat(myToken->value, char_to_string(myLexer->current_char));
+                advance_lexer(myLexer);
+
+                if(myLexer->current_char=='i'){
+                    return isKeyword(myLexer, myToken, "if"); 
+                }
+                else{
+                    return isKeyword(myLexer, myToken, "se"); 
+                }
+            }
+            break;
+
+        case 'i':
+            myToken->value =  char_to_string(myLexer->current_char);
+            advance_lexer(myLexer);
+            if(myLexer->current_char=='f'){
+                return isKeyword(myLexer, myToken,"f");
+            }
+            break;
+
+        case 'w':
+            myToken->value =  char_to_string(myLexer->current_char);
+            advance_lexer(myLexer);
+            if(myLexer->current_char=='h'){
+                return isKeyword(myLexer, myToken,"hile");
+            }
+            break;
+
+        case 'd':
+            myToken->value =  char_to_string(myLexer->current_char);
+            advance_lexer(myLexer);
+            if(myLexer->current_char=='o'){
+                return isKeyword(myLexer, myToken,"o");
+            }
+            break;
+
+        case 'r':
+            myToken->value =  char_to_string(myLexer->current_char);
+            advance_lexer(myLexer);
+            if(myLexer->current_char=='e'){
+                return isKeyword(myLexer, myToken,"eturn");
+            }
+            break;
+
+        case 'b':
+            myToken->value =  char_to_string(myLexer->current_char);
+            advance_lexer(myLexer);
+            if(myLexer->current_char=='r'){
+                return isKeyword(myLexer, myToken,"reak");
+            }
+            break;
+
         default:
             break;
     }
@@ -352,26 +439,26 @@ token* token_buffer(lexer* myLexer){
 #endif 
 
 
-token* isKeyword(lexer* myLexer, char* valueToCheck){
+token* isKeyword(lexer* myLexer, token* myToken, char* valueToCheck){
 
-    char* string_buffer = malloc(sizeof(char)+1);
-    string_buffer[0] = myLexer->current_char;
-    string_buffer[1] = '\0';
-    advance_lexer(myLexer);
+
     for(int i = 0; isalnum(myLexer->current_char) ||  myLexer->current_char=='_'; i++){
+
         char next_char = myLexer->content[myLexer->i+1];
         char* current_character = malloc(sizeof(char)+1);
         current_character[0] = myLexer->current_char;
         current_character[1] = '\0';
-        string_buffer = realloc(string_buffer, strlen(string_buffer) + 2);
+        myToken->value = realloc(myToken->value, strlen(myToken->value) + 2);
 
-        strcat(string_buffer, current_character);
+        strcat(myToken->value, current_character);
         if(valueToCheck[i] == myLexer->current_char &&  isalnum(next_char) == 0 && i < strlen(valueToCheck)){
-            return get_token_then_advance(myLexer, token_init(TOKEN_KEYWORD, string_buffer));
+            myToken->type = TOKEN_KEYWORD;
+            return get_token_then_advance(myLexer, myToken);
         }
         advance_lexer(myLexer);
     }
-    return get_token_then_advance(myLexer, token_init(TOKEN_ID, string_buffer));
+    myToken->type =  TOKEN_ID;
+    return get_token_then_advance(myLexer, myToken);
 }
 
 
@@ -407,3 +494,4 @@ token* isKeyword(lexer* myLexer, char* valueToCheck){
 //     // A valid number must have at least one digit
 //     return hasDigits;
 // }
+
