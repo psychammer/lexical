@@ -11,6 +11,19 @@ if (height == 2.1 and weight <= 180) {
     print("obese");
 }
 
+12ten
+
+function
+
+for
+
+false
+
+elif else
+
+try
+
+lambda
 
 /*
 
@@ -29,3 +42,6 @@ while (x > 0) {
 do {
     myNumber /= 2;
 } while (myNumber > 0);
+
+
+true false

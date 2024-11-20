@@ -8,6 +8,8 @@ typedef struct lexer_struct{
 
 }lexer;
 
+token* isKeyword(lexer* myLexer, char* valueToCheck);
+
 lexer* lexer_init(char* content){
     lexer* myLexer = malloc(sizeof(lexer));
     myLexer->content = content;
@@ -83,6 +85,22 @@ void skip_whitespace(lexer* myLexer){
 token* get_identifier_token(lexer* myLexer){
     token* myToken = malloc(sizeof(token));
 
+    switch(myLexer->current_char){
+
+        case 't': if(myLexer->content[myLexer->i+2]=='u') return isKeyword(myLexer, "rue"); else return isKeyword(myLexer, "ry"); break;
+        case 'f': if(myLexer->content[myLexer->i+1]=='a') return isKeyword(myLexer, "alse"); else if (myLexer->content[myLexer->i+1]=='u') return isKeyword(myLexer, "unction"); else (myLexer->content[myLexer->i+1]=='o'); return isKeyword(myLexer, "or"); break;
+        case 'c': if(myLexer->content[myLexer->i+2]=='t') return isKeyword(myLexer, "atch"); else return isKeyword(myLexer, "ase"); break;
+        case 'e': if(myLexer->content[myLexer->i+2]=='i') return isKeyword(myLexer, "lif"); else return isKeyword(myLexer, "lse"); break;
+        case 'i': return isKeyword(myLexer, "f"); break;
+        case 'w': return isKeyword(myLexer, "hile"); break;
+        case 'd': return isKeyword(myLexer, "o"); break;
+        case 'r': return isKeyword(myLexer, "eturn"); break;
+        case 'b': return isKeyword(myLexer, "reak"); break;
+        
+        default:
+            break;
+    }
+
     char* string_buffer = malloc(sizeof(char));
     string_buffer[0] = '\0';
     while(isalnum(myLexer->current_char) ||  myLexer->current_char=='_'){
@@ -97,116 +115,11 @@ token* get_identifier_token(lexer* myLexer){
     }
     
     myToken->value = string_buffer;
+    myToken->type = TOKEN_ID;
 
-    if(strcmp(string_buffer, "and")==0){
-        myToken->type = TOKEN_OPERATOR;
-    }
-    else if(strcmp(string_buffer, "or")==0){
-        myToken->type = TOKEN_OPERATOR;
-    }
-    else if(strcmp(string_buffer, "not")==0){
-        myToken->type = TOKEN_OPERATOR;
-    }
-
-    else if(strcmp(string_buffer, "if")==0){
-        myToken->type = TOKEN_KEYWORD;
-    }
-    else if(strcmp(string_buffer, "else")==0 || strcmp(string_buffer, "elif")==0){
-        myToken->type = TOKEN_KEYWORD;
-    }
-    else if(strcmp(string_buffer, "while")==0){
-        myToken->type = TOKEN_KEYWORD;
-    }
-    else if(strcmp(string_buffer, "DO")==0){
-        myToken->type = TOKEN_KEYWORD;
-    }
-    else if(strcmp(string_buffer, "for")==0){
-        myToken->type = TOKEN_KEYWORD;
-    }
-    else if(strcmp(string_buffer, "return")==0){
-        myToken->type = TOKEN_KEYWORD;
-    }
-    else if(strcmp(string_buffer, "function")==0 || strcmp(string_buffer, "fun")==0){
-        myToken->type = TOKEN_KEYWORD;
-    }
-    else if(strcmp(string_buffer, "try")==0){
-        myToken->type = TOKEN_KEYWORD;
-    }
-    else if(strcmp(string_buffer, "catch")==0){
-        myToken->type = TOKEN_KEYWORD;
-    }
-    else if(strcmp(string_buffer, "break")==0){
-        myToken->type = TOKEN_KEYWORD;
-    }
-    else if(strcmp(string_buffer, "const")==0 || strcmp(string_buffer, "constant")==0 || strcmp(string_buffer, "cons")==0){
-        myToken->type = TOKEN_KEYWORD;
-    }
-
-    else if(strcmp(string_buffer, "lambda")==0){
-        myToken->type = TOKEN_RESERVEDWORDS;
-    }
-    else if(strcmp(string_buffer, "in")==0){
-        myToken->type = TOKEN_RESERVEDWORDS;
-    }
-    else if(strcmp(string_buffer, "is")==0){
-        myToken->type = TOKEN_RESERVEDWORDS;
-    }
-    else if(strcmp(string_buffer, "finally")==0){
-        myToken->type = TOKEN_RESERVEDWORDS;
-    }
-    else if(strcmp(string_buffer, "raise")==0){
-        myToken->type = TOKEN_RESERVEDWORDS;
-    }
-    else if(strcmp(string_buffer, "def")==0){
-        myToken->type = TOKEN_RESERVEDWORDS;
-    }
-    else if(strcmp(string_buffer, "as")==0){
-        myToken->type = TOKEN_RESERVEDWORDS;
-    }
-    else if(strcmp(string_buffer, "var")==0){
-        myToken->type = TOKEN_RESERVEDWORDS;
-    }
-    else if(strcmp(string_buffer, "let")==0){
-        myToken->type = TOKEN_RESERVEDWORDS;
-    }
-
-
-    else if(strcmp(string_buffer, "true")==0 || strcmp(string_buffer, "false")==0){
-        myToken->type = TOKEN_BOOL;
-    }
-
-    else if(strcmp(string_buffer, "NULL")==0 || strcmp(string_buffer, "null")==0){
-        myToken->type = TOKEN_VOID;
-    }
-
-    else if(strcmp(string_buffer, "int")==0){
-        myToken->type = TOKEN_DATATYPE;
-    }
-    else if(strcmp(string_buffer, "float")==0){
-        myToken->type = TOKEN_DATATYPE;
-    }
-    else if(strcmp(string_buffer, "double")==0){
-        myToken->type = TOKEN_DATATYPE;
-    }
-    else if(strcmp(string_buffer, "char")==0){
-        myToken->type = TOKEN_DATATYPE;
-    }
-    else if(strcmp(string_buffer, "void")==0){
-        myToken->type = TOKEN_DATATYPE;
-    }
-    else if(strcmp(string_buffer, "bool")==0){
-        myToken->type = TOKEN_DATATYPE;
-    }
-    else if(strcmp(string_buffer, "string")==0 || strcmp(string_buffer, "str")==0){
-        myToken->type = TOKEN_DATATYPE;
-    }
-
-    else{
-        myToken->type = TOKEN_ID;
-    }
 
     
-    // printf("buffered: %s %d\n", string_buffer, myToken->type);
+    // // printf("buffered: %s %d\n", string_buffer, myToken->type);
     return myToken;
 }
 
@@ -422,6 +335,8 @@ token* token_buffer(lexer* myLexer){
             case ',': return get_token_then_advance(myLexer, token_init(TOKEN_COMMA, char_to_string(','))); break;
             case '[': return get_token_then_advance(myLexer, token_init(TOKEN_LBRACKET, char_to_string('['))); break;
             case ']': return get_token_then_advance(myLexer, token_init(TOKEN_RBRACKET, char_to_string(']'))); break;
+
+
             default: 
                 return get_token_then_advance(myLexer, token_init(TOKEN_UNKNOWN, NULL)); break;
         }
@@ -435,6 +350,29 @@ token* token_buffer(lexer* myLexer){
 }
 
 #endif 
+
+
+token* isKeyword(lexer* myLexer, char* valueToCheck){
+
+    char* string_buffer = malloc(sizeof(char)+1);
+    string_buffer[0] = myLexer->current_char;
+    string_buffer[1] = '\0';
+    advance_lexer(myLexer);
+    for(int i = 0; isalnum(myLexer->current_char) ||  myLexer->current_char=='_'; i++){
+        char next_char = myLexer->content[myLexer->i+1];
+        char* current_character = malloc(sizeof(char)+1);
+        current_character[0] = myLexer->current_char;
+        current_character[1] = '\0';
+        string_buffer = realloc(string_buffer, strlen(string_buffer) + 2);
+
+        strcat(string_buffer, current_character);
+        if(valueToCheck[i] == myLexer->current_char &&  isalnum(next_char) == 0 && i < strlen(valueToCheck)){
+            return get_token_then_advance(myLexer, token_init(TOKEN_KEYWORD, string_buffer));
+        }
+        advance_lexer(myLexer);
+    }
+    return get_token_then_advance(myLexer, token_init(TOKEN_ID, string_buffer));
+}
 
 
 // int isNumber(const char *str) {

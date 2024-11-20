@@ -1,0 +1,2 @@
+TOKEN_ID, myVariable
+TOKEN_DATATYPE, int

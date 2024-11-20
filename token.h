@@ -33,6 +33,11 @@ typedef struct token_struct{
         TOKEN_DO,
         TOKEN_RETURN,
         TOKEN_FOR,
+        TOKEN_CASE,
+        TOKEN_BREAK,
+        TOKEN_TRY,
+        TOKEN_CATCH,
+
 
         TOKEN_RESERVEDWORDS,
 
