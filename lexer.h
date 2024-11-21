@@ -262,6 +262,14 @@ token* get_identifier_token(lexer* myLexer){
             }
             break;
 
+        case 's':
+            myToken->value =  char_to_string(myLexer->current_char);
+            advance_lexer(myLexer);
+            if(myLexer->current_char=='t'){
+                return determineToken(myLexer, myToken,"tring", TOKEN_DATATYPE);
+            }
+            break;
+
         case 'v':
             myToken->value =  char_to_string(myLexer->current_char);
             advance_lexer(myLexer);
@@ -338,7 +346,7 @@ token* get_string_token(lexer* myLexer){
 
     char* string_buffer = malloc(sizeof(char));
     string_buffer[0] = '\0';
-    while(isalnum(myLexer->current_char) ||  myLexer->current_char=='_'){
+    while(myLexer->current_char!='"'){ // isalnum(myLexer->current_char) ||  myLexer->current_char=='_'
         char* current_char_as_string = malloc(sizeof(char)+1);
         current_char_as_string[0] = myLexer->current_char;
         current_char_as_string[1] = '\0';

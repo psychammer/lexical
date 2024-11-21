@@ -2,17 +2,15 @@ if(age < 5){
     return 5;
 }
 
-function_
+return 5
 
+/*
 
-float
+This is a multi line comment
 
-function sum(int a, int b){
-    return a + b;
-}
+*/
 
-char myFavoriteLetter = 'Z';
-
-bool isTrue
-
-double do void
+string backToTheBasics = "Hoping to work
+dwqwqwqwqwqwqwqwqwq
+dqwwwww
+" ;
