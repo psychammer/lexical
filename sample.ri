@@ -1,49 +1,18 @@
-// For loop
-for (int i = 0; i < 5; i++) {
-    print(i);
+if(age < 5){
+    return 5;
 }
 
-if (height == 2.1 and weight <= 180) {
-    print("underweight");
-} elif (height == 2.1 and (weight == 280 or weight == 230)) {
-    print("overweight");
-} else {
-    print("obese");
+function_
+
+
+float
+
+function sum(int a, int b){
+    return a + b;
 }
 
-12ten
+char myFavoriteLetter = 'Z';
 
-function
+bool isTrue
 
-for
-
-false
-
-elif else
-
-try
-
-lambda
-
-/*
-
-this is a multi-line-
-comment
-
-*/
-
-// While loop
-while (x > 0) {
-    print(x);
-    x -= 1;
-}
-
-// Do-while loop
-do {
-    myNumber /= 2;
-} while (myNumber > 0);
-
-
-true false
-
-case
+double do void
