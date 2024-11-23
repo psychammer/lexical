@@ -15,6 +15,11 @@ int main(int argc, char *argv[]){
 
     char* filePath = argv[1];
 
+    if(filePath[strlen(filePath)-2]!='r' && filePath[strlen(filePath)-1]!='i'){
+        printf("Incorrect file format.\n");
+        return 1;
+    }
+
     char* content = getContent(filePath);
 
     if(content==NULL){
