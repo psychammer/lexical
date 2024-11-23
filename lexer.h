@@ -9,6 +9,8 @@ typedef struct lexer_struct{
 }lexer;
 
 token* determineToken(lexer* myLexer, token* myToken, char* valueToCheck, int tokenType);
+void advance_lexer(lexer* myLexer);
+void retreat_lexer(lexer* myLexer);
 token* get_token_then_advance(lexer* myLexer, token* myToken);
 char* char_to_string(char ch);
 
@@ -22,25 +24,43 @@ lexer* lexer_init(char* content){
 }
 
 int is_comment(lexer* myLexer){
-    char next_char = myLexer->content[myLexer->i+1];
-    char next_two_char = myLexer->content[myLexer->i+2];
+    // char next_char = myLexer->content[myLexer->i+1];
+    // char next_two_char = myLexer->content[myLexer->i+2];
 
     if(myLexer->current_char == '/'){
-         if(next_char=='*'){
-            return 1;
+        advance_lexer(myLexer);
+        if(myLexer->current_char=='*'){
+            advance_lexer(myLexer);
+            return 2;
         }
         else{
+            retreat_lexer(myLexer);
             return 0;
         }
     }
     else if(myLexer->current_char == '#'){
+        advance_lexer(myLexer);
         return 1;
     }
-    else if(myLexer->current_char == '*' && next_char =='/'){
-        return 1;
-    }
-    else if(myLexer->current_char == '"' && next_char =='"' && next_two_char == '"'){
-        return 1;
+
+    else if(myLexer->current_char == '"'){
+        advance_lexer(myLexer);
+        if(myLexer->current_char == '"'){
+            advance_lexer(myLexer);
+            if(myLexer->current_char == '"'){
+                retreat_lexer(myLexer);
+                retreat_lexer(myLexer);
+                return 2;
+            }
+            else{
+                retreat_lexer(myLexer);
+                return 0;
+            }
+        }
+        else{
+            retreat_lexer(myLexer);
+            return 0;
+        }
     }
     else{
         return 0;
@@ -71,6 +91,13 @@ int is_operator(char ch){
 void advance_lexer(lexer* myLexer){
     if(myLexer->i < strlen(myLexer->content)){
         myLexer->i += 1;
+        myLexer->current_char = myLexer->content[myLexer->i];
+    }
+}
+
+void retreat_lexer(lexer* myLexer){
+    if(myLexer->i > 0){
+        myLexer->i -= 1;
         myLexer->current_char = myLexer->content[myLexer->i];
     }
 }
@@ -404,7 +431,6 @@ char* get_single_line_string(lexer* myLexer){
 
 char* get_multi_line_string(lexer* myLexer){
     char* string_buffer = malloc(sizeof(char));
-    char next_char = myLexer->content[myLexer->i+1];
     string_buffer[0] = '\0';
     while(myLexer->current_char!='\0' && myLexer->current_char!=EOF){
         if(myLexer->current_char=='*'){
@@ -454,25 +480,12 @@ char* get_multi_line_string(lexer* myLexer){
 
 // }
 
-token* get_comment_token(lexer* myLexer){
-    char next_char = myLexer->content[myLexer->i+1];
-    char next_two_char = myLexer->content[myLexer->i+2];
+token* get_comment_token(lexer* myLexer, int commentType){
+    if(commentType==2){
+        return token_init(TOKEN_MULTICOMMENT, get_multi_line_string(myLexer));
 
-    if(myLexer->current_char=='/'){
-        advance_lexer(myLexer);
-        if(next_char=='/'){
-            advance_lexer(myLexer);
-
-            return token_init(TOKEN_SINGLECOMMENT, get_single_line_string(myLexer));
-        }
-        else if(next_char=='*'){
-            advance_lexer(myLexer);
-
-            return token_init(TOKEN_MULTICOMMENT, get_multi_line_string(myLexer));
-        }
     }
-    else if(myLexer->current_char=='#'){
-        advance_lexer(myLexer);
+    else if(commentType==1){
         return token_init(TOKEN_SINGLECOMMENT, get_single_line_string(myLexer));
     }
 }
@@ -507,8 +520,9 @@ token* token_buffer(lexer* myLexer){
             return get_string_token(myLexer);
         }
 
-        if(is_comment(myLexer)){
-            return get_comment_token(myLexer);
+        int commentType = is_comment(myLexer);
+        if(commentType!=0){
+            return get_comment_token(myLexer, commentType);
         }
         else if(is_operator(myLexer->current_char)){
             char operator = myLexer->current_char;
@@ -519,7 +533,7 @@ token* token_buffer(lexer* myLexer){
             symbol[1] = next_char;
             symbol[2] = '\0';
 
-            printf("%s\n", symbol);
+            // printf("%s\n", symbol);
             if(next_char==operator && (next_char=='*' || next_char=='+' || next_char=='-' || next_char=='/' || next_char=='=')){ // check if it is an assignment operator     
                  
                 return get_token_then_advance(myLexer, token_init(TOKEN_OPERATOR, symbol));
