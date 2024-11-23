@@ -26,10 +26,7 @@ int is_comment(lexer* myLexer){
     char next_two_char = myLexer->content[myLexer->i+2];
 
     if(myLexer->current_char == '/'){
-        if(next_char=='/'){
-            return 1;
-        }
-        else if(next_char=='*'){
+         if(next_char=='*'){
             return 1;
         }
         else{
@@ -371,25 +368,25 @@ token* get_string_token(lexer* myLexer){
     return myToken;
 }
 
-token* get_assignment_token(lexer* myLexer, char curr_operator){
-    char* string_buffer = malloc(sizeof(char)+2);
+// token* get_assignment_token(lexer* myLexer, char curr_operator){
+//     char* string_buffer = malloc(sizeof(char)+2);
 
-    string_buffer[0] = curr_operator;
-    string_buffer[1] = myLexer->current_char;
-    string_buffer[2] = '\0';
-    advance_lexer(myLexer);
+//     string_buffer[0] = curr_operator;
+//     string_buffer[1] = myLexer->current_char;
+//     string_buffer[2] = '\0';
+//     advance_lexer(myLexer);
 
-    token* myToken = malloc(sizeof(token));
-    myToken->type = TOKEN_OPERATOR;
-    myToken->value = string_buffer;
-}
+//     token* myToken = malloc(sizeof(token));
+//     myToken->type = TOKEN_OPERATOR;
+//     myToken->value = string_buffer;
+// }
 
 char* get_single_line_string(lexer* myLexer){
 
     skip_whitespace(myLexer);
     char* string_buffer = malloc(sizeof(char));
     string_buffer[0] = '\0';
-    while(myLexer->current_char!=10 && myLexer->current_char!=13   && myLexer->current_char!=EOF){
+    while(myLexer->current_char!=10 && myLexer->current_char!=13  && myLexer->current_char!=EOF && myLexer->current_char!='\0'){
         char* current_char_as_string = malloc(sizeof(char)+1);
         current_char_as_string[0] = myLexer->current_char;
         current_char_as_string[1] = '\0';
@@ -397,7 +394,6 @@ char* get_single_line_string(lexer* myLexer){
         string_buffer = realloc(string_buffer, strlen(string_buffer) + 2);
 
         strcat(string_buffer, current_char_as_string);
-        // printf("%s\n", string_buffer);
         advance_lexer(myLexer);
     } 
 
@@ -410,17 +406,20 @@ char* get_multi_line_string(lexer* myLexer){
     char* string_buffer = malloc(sizeof(char));
     char next_char = myLexer->content[myLexer->i+1];
     string_buffer[0] = '\0';
-    while((myLexer->current_char!='*' && next_char!='/') && myLexer->current_char!='\0' && myLexer->current_char!=EOF){
+    while(myLexer->current_char!='\0' && myLexer->current_char!=EOF){
+        if(myLexer->current_char=='*'){
+            advance_lexer(myLexer);
+            if(myLexer->current_char=='/'){
+                break;
+            }
+        }
         char* current_char_as_string = malloc(sizeof(char)+1);
         current_char_as_string[0] = myLexer->current_char;
         current_char_as_string[1] = '\0';
-
         string_buffer = realloc(string_buffer, strlen(string_buffer) + strlen(current_char_as_string) + 1);
-
         strcat(string_buffer, current_char_as_string);
-        advance_lexer(myLexer);
-        next_char = myLexer->content[myLexer->i+1];
 
+        advance_lexer(myLexer);
         free(current_char_as_string);
     } 
     advance_lexer(myLexer);
@@ -429,6 +428,31 @@ char* get_multi_line_string(lexer* myLexer){
     return string_buffer;
 
 }
+
+
+// char* get_multi_line_string(lexer* myLexer){
+//     char* string_buffer = malloc(sizeof(char));
+//     char next_char = myLexer->content[myLexer->i+1];
+//     string_buffer[0] = '\0';
+//     while((myLexer->current_char!='*' && next_char!='/') && myLexer->current_char!='\0' && myLexer->current_char!=EOF){
+//         char* current_char_as_string = malloc(sizeof(char)+1);
+//         current_char_as_string[0] = myLexer->current_char;
+//         current_char_as_string[1] = '\0';
+
+//         string_buffer = realloc(string_buffer, strlen(string_buffer) + strlen(current_char_as_string) + 1);
+
+//         strcat(string_buffer, current_char_as_string);
+//         advance_lexer(myLexer);
+//         next_char = myLexer->content[myLexer->i+1];
+
+//         free(current_char_as_string);
+//     } 
+//     advance_lexer(myLexer);
+//     advance_lexer(myLexer);
+
+//     return string_buffer;
+
+// }
 
 token* get_comment_token(lexer* myLexer){
     char next_char = myLexer->content[myLexer->i+1];
@@ -488,23 +512,23 @@ token* token_buffer(lexer* myLexer){
         }
         else if(is_operator(myLexer->current_char)){
             char operator = myLexer->current_char;
-            if(myLexer->content[myLexer->i+1]=='='){ // check if it is an assignment operator
-                advance_lexer(myLexer);
+            advance_lexer(myLexer);
+            char next_char = myLexer->current_char;
+            char* symbol = malloc(sizeof(char)+2);
+            symbol[0] = operator;
+            symbol[1] = next_char;
+            symbol[2] = '\0';
 
-                return get_assignment_token(myLexer, operator);
+            printf("%s\n", symbol);
+            if(next_char==operator && (next_char=='*' || next_char=='+' || next_char=='-' || next_char=='/' || next_char=='=')){ // check if it is an assignment operator     
+                 
+                return get_token_then_advance(myLexer, token_init(TOKEN_OPERATOR, symbol));
             }
-            else if(myLexer->content[myLexer->i+1]==operator){ // check if it is a unary operator
-                advance_lexer(myLexer);
-                char* unary_operator = malloc(sizeof(char)+2);
-
-                unary_operator[0] = operator;
-                unary_operator[1] = operator;
-                unary_operator[2] = '\0';
-
-                return get_token_then_advance(myLexer, token_init(TOKEN_OPERATOR, unary_operator));
+            else if((operator=='+' || operator=='-' || operator=='/' || operator=='*') && next_char=='='){
+                return get_token_then_advance(myLexer, token_init(TOKEN_OPERATOR, symbol));
             }
 
-            return get_token_then_advance(myLexer, token_init(TOKEN_OPERATOR, char_to_string(operator)));
+            return token_init(TOKEN_OPERATOR, char_to_string(operator));
         }
 
         switch(myLexer->current_char){
