@@ -43,3 +43,8 @@ TOKEN_OPERATOR, !
 TOKEN_OPERATOR, !
 TOKEN_OPERATOR, !
 TOKEN_SINGLECOMMENT, ewweeggwe
+TOKEN_MULTICOMMENT,  ***
+
+dwqdwqdw **** dwqdwq
+
+ 

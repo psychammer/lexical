@@ -438,6 +438,7 @@ char* get_multi_line_string(lexer* myLexer){
             if(myLexer->current_char=='/'){
                 break;
             }
+            retreat_lexer(myLexer);
         }
         char* current_char_as_string = malloc(sizeof(char)+1);
         current_char_as_string[0] = myLexer->current_char;
