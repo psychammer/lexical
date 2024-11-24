@@ -121,6 +121,25 @@ token* get_identifier_token(lexer* myLexer){
             if(myLexer->current_char=='s'){
                 return determineToken(myLexer, myToken,"s", TOKEN_RESERVEDWORDS);
             }
+            else{
+                return determineToken(myLexer, myToken, "nd", TOKEN_OPERATOR);
+            }
+            break;
+
+        case 'o':
+            myToken->value =  char_to_string(myLexer->current_char);
+            advance_lexer(myLexer);
+            if(myLexer->current_char=='r'){
+                return determineToken(myLexer, myToken,"r", TOKEN_OPERATOR);
+            }
+            break;
+        
+        case 'n':
+            myToken->value =  char_to_string(myLexer->current_char);
+            advance_lexer(myLexer);
+            if(myLexer->current_char=='o'){
+                return determineToken(myLexer, myToken,"ot", TOKEN_OPERATOR);
+            }
             break;
 
         case 't':
@@ -136,7 +155,7 @@ token* get_identifier_token(lexer* myLexer){
                 }
                 else return determineToken(myLexer, myToken, "y", TOKEN_KEYWORD); 
             }
-            
+            break;
         
         case 'f': 
             myToken->value =  char_to_string(myLexer->current_char);
