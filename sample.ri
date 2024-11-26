@@ -1,32 +1,4 @@
-if(age < 5){
-    return 5;
-}
 
-return 5
+ca ca_se 
 
-/*
-
-This is a multi line comment
-
-*/
-
-==
-
-string backToTheBasics = "Hoping to work
-dwqwqwqwqwqwqwqwqwq
-dqwwwww
-" ;
-
-===
-
-+ - / * += -= /= *= ** // ++ -- ! !!
-
-
-
-#ewweeggwe
-
-/* ***
-
-dwqdwqdw **** dwqdwq
-
- */
+or and_ not %= == <= != >=  true try terminat terminate terminate_all printout check char case or otherwise endloo

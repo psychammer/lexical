@@ -55,6 +55,7 @@ typedef struct token_struct{
         TOKEN_NUMBER,
 
         TOKEN_UNKNOWN
+
     }type;
 
     char* value;

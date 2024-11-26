@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
 
     // printf("size of token: %d", size);
 
-    FILE *file = fopen("output.txt", "w");
+    FILE *file = fopen(argv[2], "w");
     if (file == NULL) {
         perror("Error opening file");
         return 1;
