@@ -1,4 +1,36 @@
+#Valid identifiers:
+_age
+height
+Name
+School
+calculate
 
-ca ca_se 
+#Invalid identifiers:
+1name
+#score
+9_age
+age%
+my name
+price@
+char favorite_letter  
+wfqfqw
+fqwqfw
 
-or and_ not %= == <= != >=  true try terminat terminate terminate_all printout check char case or otherwise endloo
+or
+and
+str
+string
+stri
+]
+char myFavLetter = 'G';
+
+
+lambda
+in
+is
+finally
+raise
+def
+as
+var
+let
