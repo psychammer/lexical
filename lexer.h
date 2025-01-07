@@ -747,7 +747,7 @@ token* get_identifier_token(lexer* myLexer){
                         }
                     case 4: // check if there is only false
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_BOOLEAN, myToken->value);
+                            return token_init(TOKEN_BOOL, myToken->value);
                         }
                         else{
                             state=-1; // more characters ahead, so maybe it's an id
@@ -1801,7 +1801,7 @@ token* get_identifier_token(lexer* myLexer){
                         }   
                     case 3: // check for tru'e'
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_BOOLEAN, myToken->value);
+                            return token_init(TOKEN_BOOL, myToken->value);
                         }
                         else{
                             state=-1; 

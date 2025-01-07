@@ -36,3 +36,6 @@ var
 let
 
 int k, j, r;
+
+true
+false
