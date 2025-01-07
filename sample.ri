@@ -34,3 +34,5 @@ def
 as
 var
 let
+
+int k, j, r;
