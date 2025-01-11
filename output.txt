@@ -1,2 +1,6 @@
-TOKEN_ID, ca
-TOKEN_ID, ca_se
+TOKEN_SINGLECOMMENT, Valid identifiers:
+TOKEN_ID, _age
+TOKEN_ID, height
+TOKEN_ID, Name
+TOKEN_ID, School
+TOKEN_ID, calculate

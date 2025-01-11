@@ -229,7 +229,7 @@ token* get_identifier_token(lexer* myLexer){
                         }
                     case 4: // check if there is break only
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_BREAK, myToken->value);
                         }
                         else{
                             state=-1; // more characters ahead, so maybe it's an id
@@ -343,16 +343,16 @@ token* get_identifier_token(lexer* myLexer){
                     case 5: // check for catc'h'
                         if(myLexer->current_char=='h'){
                             realloc_token_value_then_advance(myToken, myLexer);
-                            state=6; // now check if it still has remaining charac
+                            state=15; // now check if it still has remaining charac
                             break;
                         }
                         else{
                             state=-1; // no more keywords left, so maybe it's an id
                             break;
                         }
-                    case 6: // check if there is catch or case
+                    case 6: // check if there is  case
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_CASE, myToken->value);
                         }
                         else{
                             state=-1; // more characters ahead, so maybe it's an id
@@ -431,7 +431,16 @@ token* get_identifier_token(lexer* myLexer){
                         }
                     case 14: // check if there is check only
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_CHECK, myToken->value);
+                        }
+                        else{
+                            state=-1; // more characters ahead, so maybe it's an id
+                            break;
+                        }
+                    
+                    case 15: // check if there is check only
+                        if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
+                            return token_init(TOKEN_CATCH, myToken->value);
                         }
                         else{
                             state=-1; // more characters ahead, so maybe it's an id
@@ -469,7 +478,7 @@ token* get_identifier_token(lexer* myLexer){
                         }
                     case 1: // check if there is only do
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_DO, myToken->value);
                         }
                         else{
                             state=2; // check for do'u' if there are more characs
@@ -602,16 +611,16 @@ token* get_identifier_token(lexer* myLexer){
                     case 4: // check for eli'f'
                         if(myLexer->current_char=='f'){
                             realloc_token_value_then_advance(myToken, myLexer);
-                            state=5; // now check if it still has remaining charac
+                            state=13; // now check if it still has remaining charac
                             break;
                         }
                         else{
                             state=-1; // no more keywords left, so maybe it's an id
                             break;
                         }
-                    case 5: // check if there is only elif or else
+                    case 5: // check if there is only else
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_ELSE, myToken->value);
                         }
                         else{
                             state=-1; // more characters ahead, so maybe it's an id
@@ -682,7 +691,16 @@ token* get_identifier_token(lexer* myLexer){
                         }
                     case 12: // check if there is only endloop
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_ENDLOOP, myToken->value);
+                        }
+                        else{
+                            state=-1; // more characters ahead, so maybe it's an id
+                            break;
+                        }
+
+                    case 13: // check if there is only endloop
+                        if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
+                            return token_init(TOKEN_ELIF, myToken->value);
                         }
                         else{
                             state=-1; // more characters ahead, so maybe it's an id
@@ -827,7 +845,7 @@ token* get_identifier_token(lexer* myLexer){
                         }
                     case 12: // check if there is only function
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_FUNCTION, myToken->value);
                         }
                         else{
                             state=-1; // more characters ahead, so maybe it's an id
@@ -977,7 +995,7 @@ token* get_identifier_token(lexer* myLexer){
                         } 
                     case 27: // check if there is only for
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_FOR, myToken->value);
                         }
                         else{
                             state=-1; // more characters ahead, so maybe it's an id
@@ -1013,7 +1031,7 @@ token* get_identifier_token(lexer* myLexer){
                         }
                     case 1: // check if there is only if
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_IF, myToken->value);
                         }
                         else{
                             state=-1; // check for do'u'
@@ -1193,7 +1211,7 @@ token* get_identifier_token(lexer* myLexer){
                             state=-1; // no more keywords left, so maybe it's an id
                             break;
                         }
-                    case 10: // check for i'n'
+                    case 10: // check for lo'o'
                         if(myLexer->current_char=='o'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=11; // now check if it still has remaining charac
@@ -1203,7 +1221,7 @@ token* get_identifier_token(lexer* myLexer){
                             state=-1; // no more keywords left, so maybe it's an id
                             break;
                         }
-                    case 11: // 
+                    case 11: // check for loo'p'
                         if(myLexer->current_char=='p'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=12; // now check if it still has remaining charac
@@ -1213,9 +1231,9 @@ token* get_identifier_token(lexer* myLexer){
                             state=-1; // no more keywords left, so maybe it's an id
                             break;
                         }
-                    case 12: // check for in't'
+                    case 12: // check for loop only
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_LOOP, myToken->value);
                         }
                         else{
                             state=-1; 
@@ -1313,82 +1331,82 @@ token* get_identifier_token(lexer* myLexer){
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }   
-                    case 3: // check for o't'  
+                    case 3: // check for ot'h'
                         if(myLexer->current_char=='h'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=4; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 4: // check for o't'  
+                    case 4: // check for oth'e'
                         if(myLexer->current_char=='e'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=5; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 5: // check for o't'  
+                    case 5: // check for othe'r'
                         if(myLexer->current_char=='r'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=6; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 6: // check for o't'  
+                    case 6: // check for other'w'
                         if(myLexer->current_char=='w'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=7; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         } 
-                    case 7: // check for o't'  
+                    case 7: // check for otherw'i'
                         if(myLexer->current_char=='i'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=8; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         } 
-                    case 8: // check for o't'  
+                    case 8: // check for otherwi's'
                         if(myLexer->current_char=='s'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=9; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         } 
-                    case 9: // check for o't'  
+                    case 9: // check for otherwis'e'
                         if(myLexer->current_char=='e'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=10; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         } 
-                    case 10: // check for o't'  
+                    case 10: // check for otherwise only
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_OTHERWISE, myToken->value);
                         }
                         else{
                             state=-1; 
@@ -1419,72 +1437,72 @@ token* get_identifier_token(lexer* myLexer){
                             break;
                         }
                         else{
-                            state=-1; // if not o'r', try o't'
+                            state=-1; 
                             break;
                         }
-                    case 1: // check if there is only if
+                    case 1: // chechk for pr'i'
                         if(myLexer->current_char=='i'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=2; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 2: // check for o't'  
+                    case 2: // check for pri'n'
                         if(myLexer->current_char=='n'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=3; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }   
-                    case 3: // check for o't'  
+                    case 3: // prin't'
                         if(myLexer->current_char=='t'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=4; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 4: // check for o't'  
+                    case 4: // check for print'o'
                         if(myLexer->current_char=='o'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=5; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 5: // check for o't'  
+                    case 5: // check for printo'u'
                         if(myLexer->current_char=='u'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=6; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 6: // check for o't'  
+                    case 6: // printou't'
                         if(myLexer->current_char=='t'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=7; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         } 
-                    case 7: // check for o't'  
+                    case 7: // check for printout
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_PRINTOUT, myToken->value);
                         }
                         else{
                             state=-1; 
@@ -1559,7 +1577,7 @@ token* get_identifier_token(lexer* myLexer){
                         }
                     case 5: // check for return only
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_RETURN, myToken->value);
                         }
                         else{
                             state=-1; 
@@ -1661,7 +1679,7 @@ token* get_identifier_token(lexer* myLexer){
                             state=5; 
                             break;
                         }   
-                    case 3: // check for o't'  
+                    case 3: // check for stri'n'
                         if(myLexer->current_char=='n'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=4; // now check if it still has remaining charac
@@ -1671,7 +1689,7 @@ token* get_identifier_token(lexer* myLexer){
                             state=-1; // if not l'e', try l'a'
                             break;
                         }
-                    case 4: // check for o't'  
+                    case 4: // check for strin'g'
                         if(myLexer->current_char=='g'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=5; // now check if it still has remaining charac
@@ -1700,10 +1718,10 @@ token* get_identifier_token(lexer* myLexer){
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         } 
-                    case 7: // check for o't'  
+                    case 7: // check for sw'i' 
                         if(myLexer->current_char=='i'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=8; // now check if it still has remaining charac
@@ -1713,39 +1731,39 @@ token* get_identifier_token(lexer* myLexer){
                             state=-1; // if not l'e', try l'a'
                             break;
                         }
-                    case 8: // check for o't'  
+                    case 8: // check for swi't'
                         if(myLexer->current_char=='t'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=9; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1;
                             break;
                         }
-                    case 9: // check for o't'  
+                    case 9: // check for swit'c'
                         if(myLexer->current_char=='c'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=10; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 10: // check for o't'  
+                    case 10: // check for switc'h'
                         if(myLexer->current_char=='h'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=11; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1;
                             break;
                         }
-                    case 11: // check for o't'  
+                    case 11: // check for switch only
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_SWITCH, myToken->value);
                         }
                         else{
                             state=-1; 
@@ -1819,9 +1837,9 @@ token* get_identifier_token(lexer* myLexer){
                             state=-1; // if not l'e', try l'a'
                             break;
                         }
-                    case 5: // check for o't'  
+                    case 5: // check for try only  
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_TRY, myToken->value);
                         }
                         else{
                             state=-1; 
@@ -1840,79 +1858,79 @@ token* get_identifier_token(lexer* myLexer){
                             state=-1; // if not l'e', try l'a'
                             break;
                         } 
-                    case 7: // check for o't'  
+                    case 7: // check for te'r' 
                         if(myLexer->current_char=='r'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=8; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 8: // check for o't'  
+                    case 8: // check for ter'm'
                         if(myLexer->current_char=='m'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=9; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 9: // check for o't'  
+                    case 9: // check for term'i' 
                         if(myLexer->current_char=='i'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=10; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 10: // check for o't'  
+                    case 10: // check for termi'n'
                         if(myLexer->current_char=='n'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=11; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1;
                             break;
                         }
-                    case 11: // check for o't'  
+                    case 11: // check for termin'a'
                         if(myLexer->current_char=='a'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=12; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 12: // check for o't'  
+                    case 12: // check for termina't'
                         if(myLexer->current_char=='t'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=13; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 13: // check for o't'  
+                    case 13: // check for terminat'e'
                         if(myLexer->current_char=='e'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=14; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 14: // check for o't'  
+                    case 14: // check for terminate only
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_TERMINATE, myToken->value);
                         }
                         else{
                             state=15; // if not terminate, check for possiblity of terminateall 
@@ -1925,10 +1943,10 @@ token* get_identifier_token(lexer* myLexer){
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 16: // check for o't'  
+                    case 16: // check for terminatea'l'  
                         if(myLexer->current_char=='l'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=17; // now check if it still has remaining charac
@@ -1938,7 +1956,7 @@ token* get_identifier_token(lexer* myLexer){
                             state=-1; // if not l'e', try l'a'
                             break;
                         }
-                    case 17: // check for o't'  
+                    case 17: // check for terminateal'l
                         if(myLexer->current_char=='l'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=18; // now check if it still has remaining charac
@@ -1948,9 +1966,9 @@ token* get_identifier_token(lexer* myLexer){
                             state=-1; // if not l'e', try l'a'
                             break;
                         }
-                    case 18: // check for o't'  
+                    case 18: // check for terminateall only
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_TERMINATEALL, myToken->value);
                         }
                         else{
                             state=-1; 
@@ -2066,42 +2084,42 @@ token* get_identifier_token(lexer* myLexer){
                             break;
                         }
                         else{
-                            state=-1; // 
+                            state=-1; 
                             break;
                         }
-                    case 1: // check if there is only if
+                    case 1: // check for wh'i'
                         if(myLexer->current_char=='i'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=2; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }
-                    case 2: // check for o't'  
+                    case 2: // check for whi'l'
                         if(myLexer->current_char=='l'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=3; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1; 
                             break;
                         }   
-                    case 3: // check for o't'  
+                    case 3: // check for whil'e'
                         if(myLexer->current_char=='e'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=4; // now check if it still has remaining charac
                             break;
                         }
                         else{
-                            state=-1; // if not l'e', try l'a'
+                            state=-1;
                             break;
                         }
-                    case 4: // check for o't'  
+                    case 4: // check for while only 
                         if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
-                            return token_init(TOKEN_KEYWORD, myToken->value);
+                            return token_init(TOKEN_WHILE, myToken->value);
                         }
                         else{
                             state=-1; 
