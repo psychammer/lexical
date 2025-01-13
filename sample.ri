@@ -1,1 +1,6 @@
-50 + 40 + 100*2 + 5
+#this is a single comment
+
+/* this is 
+multi 
+line 
+comments */

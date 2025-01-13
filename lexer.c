@@ -128,6 +128,8 @@ int main(int argc, char *argv[]){
         case TOKEN_SWITCH: return "TOKEN_SWITCH"; break;
         case TOKEN_TERMINATE: return "TOKEN_TERMINATE"; break;
         case TOKEN_TERMINATEALL: return "TOKEN_TERMINATEALL"; break; 
+        case TOKEN_BLANK: return "TOKEN_BLANK"; break;
+        case TOKEN_CONST: return "TOKEN_CONST"; break;
         default: return "UNKNOWN_TOKEN";break;
     }
 }
