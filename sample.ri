@@ -1,6 +1,1 @@
-#Valid identifiers:
-_age
-height
-Name
-School
-calculate
+50 + 40 + 100*2 + 5

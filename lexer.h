@@ -1,3 +1,4 @@
+#pragma once
 #ifndef lexer_h
 #define lexer_h
 
@@ -367,7 +368,7 @@ token* get_identifier_token(lexer* myLexer){
                             break;
                         }
                         else{
-                            state=-1; // no more keywords left, so maybe it's an id
+                            state=16; // no more keywords left, so maybe it's an id
                             break;
                         }
                     case 8: // check for ch'a'
@@ -446,6 +447,64 @@ token* get_identifier_token(lexer* myLexer){
                             state=-1; // more characters ahead, so maybe it's an id
                             break;
                         }
+
+                    case 16:
+                        // check for c'o'
+                        if(myLexer->current_char=='o'){
+                            realloc_token_value_then_advance(myToken, myLexer);
+                            state=17; // now check for co'n'
+                            break;
+                        }
+                        else{
+                            state=-1; // no more keywords left, so maybe it's an id
+                            break;
+                        }
+
+                    case 17:
+                        // check for co'n'
+                        if(myLexer->current_char=='n'){
+                            realloc_token_value_then_advance(myToken, myLexer);
+                            state=18; // now check for con's'
+                            break;
+                        }
+                        else{
+                            state=-1; // no more keywords left, so maybe it's an id
+                            break;
+                        }
+
+                    case 18:
+                        // check for con's'
+                        if(myLexer->current_char=='s'){
+                            realloc_token_value_then_advance(myToken, myLexer);
+                            state=19; // now check for cons't'
+                            break;
+                        }
+                        else{
+                            state=-1; // no more keywords left, so maybe it's an id
+                            break;
+                        }
+
+                    case 19:
+                        // check for cons't'
+                        if(myLexer->current_char=='t'){
+                            realloc_token_value_then_advance(myToken, myLexer);
+                            state=20; // now check for any remaining charac
+                            break;
+                        }
+                        else{
+                            state=-1; // no more keywords left, so maybe it's an id
+                            break;
+                        }
+                    
+                    case 20: // check if there is const only
+                        if(isalnum(myLexer->current_char)==0 && myLexer->current_char!='_'){
+                            return token_init(TOKEN_CONST, myToken->value);
+                        }
+                        else{
+                            state=-1; // more characters ahead, so maybe it's an id
+                            break;
+                        }
+
 
                     default:
                         break;
@@ -612,7 +671,7 @@ token* get_identifier_token(lexer* myLexer){
                         if(myLexer->current_char=='f'){
                             realloc_token_value_then_advance(myToken, myLexer);
                             state=13; // now check if it still has remaining charac
-                            break;
+                            break; 
                         }
                         else{
                             state=-1; // no more keywords left, so maybe it's an id
@@ -2374,6 +2433,21 @@ token* token_buffer(lexer* myLexer){
             }
 
             return token_init(TOKEN_OPERATOR, char_to_string(operator));
+        }
+
+        if(myLexer->current_char == '\\'){
+            char* backslash = char_to_string(myLexer->current_char);
+            advance_lexer(myLexer);
+
+            backslash = realloc(backslash, 3);
+            strcat(backslash, char_to_string(myLexer->current_char));
+            switch(myLexer->current_char){
+                case 's': return get_token_then_advance(myLexer, token_init(TOKEN_BLANK, backslash));
+                case 't': return get_token_then_advance(myLexer, token_init(TOKEN_BLANK, backslash));
+                case 'n': return get_token_then_advance(myLexer, token_init(TOKEN_BLANK, backslash));
+                default:
+                    return get_token_then_advance(myLexer, token_init(TOKEN_UNKNOWN, backslash)); break;
+            }
         }
 
         switch(myLexer->current_char){

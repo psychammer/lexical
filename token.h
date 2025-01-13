@@ -65,7 +65,10 @@ typedef struct token_struct{
         TOKEN_PRINTOUT,
         TOKEN_SWITCH,
         TOKEN_TERMINATE,
-        TOKEN_TERMINATEALL
+        TOKEN_TERMINATEALL,
+        TOKEN_CONST,
+        TOKEN_BLANK,
+
 
     }type;
 
