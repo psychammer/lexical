@@ -7,6 +7,7 @@
 
 char* getContent(char* filePath);
 char* getTokenType(int tokenTypeInt);
+int ends_with(const char *str, const char *suffix);
 
 int main(int argc, char *argv[]){
 
@@ -15,8 +16,13 @@ int main(int argc, char *argv[]){
 
     char* filePath = argv[1];
 
-    if(filePath[strlen(filePath)-2]!='r' && filePath[strlen(filePath)-1]!='i'){
-        printf("Incorrect file format.\n");
+    if (argc != 3) {
+        fprintf(stderr, "Usage: %s <input_file.ri> <output_file.txt>\n", argv[0]);
+        return 1; // Indicate an error
+    }
+
+    if (!ends_with(filePath, ".ri")) {
+        fprintf(stderr, "Error: Input file must have the .ri extension.\n");
         return 1;
     }
 
@@ -162,4 +168,16 @@ char* getContent(char* filePath){
     }
 
     return content;
+}
+
+int ends_with(const char *str, const char *suffix) {
+    if (!str || !suffix) {
+        return 0;
+    }
+    size_t str_len = strlen(str);
+    size_t suffix_len = strlen(suffix);
+    if (suffix_len > str_len) {
+        return 0;
+    }
+    return 0 == strncmp(str + str_len - suffix_len, suffix, suffix_len);
 }

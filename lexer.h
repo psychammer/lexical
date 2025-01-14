@@ -2470,7 +2470,8 @@ token* token_buffer(lexer* myLexer){
 
 
             default: 
-                return get_token_then_advance(myLexer, token_init(TOKEN_UNKNOWN, NULL)); break;
+                printf("here?%c\n", myLexer->current_char);
+                return get_token_then_advance(myLexer, token_init(TOKEN_UNKNOWN, char_to_string(myLexer->current_char))); break;
         }
 
         // printf("debug %d\n", myLexer->current_char);
