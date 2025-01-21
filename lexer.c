@@ -28,18 +28,15 @@ int main(int argc, char *argv[]){
 
     char* content = getContent(filePath);
 
-    if(content==NULL){
-        printf("Fail to read file.\n");
-        return 1;
-    }
-
     lexer* myLexer = lexer_init(content);
 
-
     int size = 0;
-    token* token_arr = malloc(sizeof(token));
+
+    token* token_arr = calloc(1, sizeof(token));
+
     while(myLexer->current_char!=EOF && myLexer->i < strlen(myLexer->content)){
-        token* token_instance = token_buffer(myLexer);
+
+        token* token_instance = token_buffer(myLexer);        
 
         if(token_instance->value != NULL){
             size++;
@@ -51,11 +48,12 @@ int main(int argc, char *argv[]){
             // Copy token instance data
             token_arr[size - 1].type = token_instance->type;
             token_arr[size - 1].value = strdup(token_instance->value);
+            token_arr[size - 1].line = token_instance->line;
         }
         
     }
 
-    // printf("size of token: %d", size);
+    // printf("%s\n", content);
 
     FILE *file = fopen(argv[2], "w");
     if (file == NULL) {
@@ -63,13 +61,20 @@ int main(int argc, char *argv[]){
         return 1;
     }
 
+    fprintf(file, "%-20s | %-15s | %-30s | %-20s\n", 
+        "TOKEN_NAME", "TOKEN_CODE", "TOKEN_VALUE", "TOKEN_LINE_NUMBER");
+    fprintf(file, "---------------------|-----------------|--------------------------------|---------------------\n");
 
-    for(int i = 0; i < size; i++) {
-        fprintf(file, "%s, %s\n", getTokenType(token_arr[i].type), token_arr[i].value);
+    for (int i = 0; i < size; i++) {
+        fprintf(file, "%-20s | %-15d | %-30s | %-20d\n", 
+                getTokenType(token_arr[i].type), 
+                token_arr[i].type, 
+                token_arr[i].value, 
+                token_arr[i].line);
     }
 
     fclose(file);
-    
+
     
     return 0;
 }
@@ -144,29 +149,31 @@ int main(int argc, char *argv[]){
 
 
 
-char* getContent(char* filePath){
-    FILE *fptr;
-
-    char ch;
-
-    fptr = fopen(filePath, "r");
-
-    if(fptr == NULL){
+char* getContent(char* filepath) {
+    FILE* file = fopen(filepath, "r");
+    if (file == NULL) {
+        perror("Error opening file");
         return NULL;
     }
 
-    char* content = malloc(sizeof(char));
-    while((ch=fgetc(fptr)) != EOF){
-        char* char_as_string = malloc(sizeof(char)+1);
-        char_as_string[0] = ch;
-        char_as_string[1] = '\0';
+    // Seek to the end to determine file size
+    fseek(file, 0, SEEK_END);
+    long fileSize = ftell(file);
+    rewind(file);  // Reset pointer to the start of the file
 
-        content = realloc(content, strlen(content)+ strlen(content) + 1);
-        strcat(content, char_as_string);
-
-        free(char_as_string);
+    // Allocate memory for the string (+1 for null terminator)
+    char* content = (char*)malloc((fileSize + 1) * sizeof(char));
+    if (content == NULL) {
+        perror("Error allocating memory");
+        fclose(file);
+        return NULL;
     }
 
+    // Read the file into the buffer
+    fread(content, sizeof(char), fileSize, file);
+    content[fileSize] = '\0';  // Null-terminate the string
+
+    fclose(file);
     return content;
 }
 

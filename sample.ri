@@ -133,8 +133,3 @@ int a = b \s \t \n + 5;
 []
 ,
 ;
-
-# Invalid tokens
-$
-@
-Æ
